@@ -1,9 +1,8 @@
-console.log('Hello, Nodemon World!');
+import * as os from 'os';
 
 function nextGeneration(grid: any, M: any, N: any) {
   const future = new Array(M).fill(0).map(() => new Array(N).fill(0));
 
-  let output = '';
   // loop through every cell
   for (let l = 0; l < M; l++) {
     for (let m = 0; m < N; m++) {
@@ -32,23 +31,56 @@ function nextGeneration(grid: any, M: any, N: any) {
     }
   }
 
+  return future;
+}
+
+function getOutput(newGrid: number[][]): string {
+  let output = '';
+
   for (let i = 0; i < M; i++) {
     for (let j = 0; j < N; j++) {
-      if (future[i][j] == 0) output += '.';
+      if (newGrid[i][j] == 0) output += '.';
       else output += '*';
     }
     output += '\n';
   }
-  console.log(output);
 
-  return future;
+  return output;
 }
 
-const M = 10,
+function getGenerations(args: string[], defaultGenerations = 2): number {
+  const hasLongFlag = args.indexOf('--generations') > -1;
+  if (hasLongFlag) {
+    const generations = parseInt(args[args.indexOf('--generations') + 1]);
+    if (isNaN(generations) || generations < 0) {
+      throw new Error(
+        'Generations arg passed without a value. Generations should be a positive number',
+      );
+    }
+
+    return generations;
+  }
+
+  const hasShortFlag = args.indexOf('-g') > -1;
+  if (hasShortFlag) {
+    const generations = parseInt(args[args.indexOf('-g') + 1]);
+    if (isNaN(generations) || generations < 0) {
+      throw new Error(
+        'Generations arg passed without a value. Generations should be a positive number',
+      );
+    }
+
+    return generations;
+  }
+
+  return defaultGenerations;
+}
+
+const M = 5,
   N = 10;
 
 // Initializing the grid.
-const grid = [
+let grid = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
@@ -61,13 +93,13 @@ const grid = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
 const generations = 2;
-let newGrid = [];
 
-console.log('Original Generation\n');
-newGrid = nextGeneration(grid, M, N);
-for (let i = 0; i < generations; i++) {
-  console.log('Generation ' + (i + 1) + '\n');
-  newGrid = nextGeneration(newGrid, M, N);
+process.stdout.write('Hello, RAE Dev Game of Life! \n' + os.EOL);
+/// Run the simulation for the given number of generations
+for (let i = 0; i < getGenerations(process.argv, generations); i++) {
+  let output = '';
+  process.stdout.write('Generation ' + (i + 1) + os.EOL);
+  grid = nextGeneration(grid, M, N);
+  output = getOutput(grid);
+  process.stdout.write(output + os.EOL);
 }
-console.log('Final Generation\n');
-nextGeneration(newGrid, M, N);
