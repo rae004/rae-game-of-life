@@ -1,0 +1,10 @@
+{
+  "name": "rae-game-of-life",
+  "version": "0.0.1",
+  "description": "An implementation of Conway's Game of Life.",
+  "main": "index.ts",
+  "repository": "https://github.com/rae004/rae-game-of-life",
+  "author": "Robert Engel <robert.engel@apollidon.com>",
+  "license": "GPLv3",
+  "private": false
+}
