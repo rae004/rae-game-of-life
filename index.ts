@@ -3,7 +3,7 @@ console.log('Hello, Nodemon World!');
 function nextGeneration(grid: any, M: any, N: any) {
   const future = new Array(M).fill(0).map(() => new Array(N).fill(0));
 
-  let output = 'Next Generation\n';
+  let output = '';
   // loop through every cell
   for (let l = 0; l < M; l++) {
     for (let m = 0; m < N; m++) {
@@ -40,6 +40,8 @@ function nextGeneration(grid: any, M: any, N: any) {
     output += '\n';
   }
   console.log(output);
+
+  return future;
 }
 
 const M = 10,
@@ -58,5 +60,14 @@ const grid = [
   [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
+const generations = 2;
+let newGrid = [];
 
-nextGeneration(grid, M, N);
+console.log('Original Generation\n');
+newGrid = nextGeneration(grid, M, N);
+for (let i = 0; i < generations; i++) {
+  console.log('Generation ' + (i + 1) + '\n');
+  newGrid = nextGeneration(newGrid, M, N);
+}
+console.log('Final Generation\n');
+nextGeneration(newGrid, M, N);
