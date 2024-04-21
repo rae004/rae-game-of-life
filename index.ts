@@ -76,27 +76,18 @@ function getGenerations(args: string[], defaultGenerations = 2): number {
   return defaultGenerations;
 }
 
-const ROWS = 10,
-  COLS = 10;
+const gridSize = [20, 60];
+const ROWS = gridSize[0],
+  COLS = gridSize[1];
 
 // Initializing the grid.
-let grid = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-  [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-  [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-];
-const generations = 2;
+let grid = Array.from({ length: ROWS }, () =>
+  Array.from({ length: COLS }, () => Math.round(Math.random())),
+);
 
 process.stdout.write('Hello, RAE Dev Game of Life! \n' + os.EOL);
 /// Run the simulation for the given number of generations
-for (let i = 0; i < getGenerations(process.argv, generations); i++) {
+for (let i = 0; i < getGenerations(process.argv, 3); i++) {
   let output = '';
   process.stdout.write('Generation ' + (i + 1) + os.EOL);
   grid = nextGeneration(grid, ROWS, COLS);
