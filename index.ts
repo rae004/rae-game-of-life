@@ -2,13 +2,13 @@ import * as os from 'os';
 import { nextGeneration } from '@/src/nextGeneration';
 import { getNodeOutput } from '@/src/getNodeConsoleOutput';
 import { getColsArg, getGenerationsArg, getRowsArg } from '@/src/getArgs';
+import { getGrid } from '@/src/getGrid';
 
-const [ROWS, COLS] = [getRowsArg(process.argv), getColsArg(process.argv)];
+const ROWS = getRowsArg(process.argv);
+const COLS = getColsArg(process.argv);
 
 // Initializing the grid.
-let grid = Array.from({ length: ROWS }, () =>
-  Array.from({ length: COLS }, () => Math.round(Math.random())),
-);
+let grid = getGrid(ROWS, COLS);
 
 process.stdout.write('Hello, RAE Dev Game of Life! \n' + os.EOL);
 /// Run the simulation for the given number of generations
