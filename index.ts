@@ -34,11 +34,11 @@ function nextGeneration(grid: any, M: any, N: any) {
   return future;
 }
 
-function getOutput(newGrid: number[][]): string {
+function getOutput(newGrid: number[][], rows: number, cols: number): string {
   let output = '';
 
-  for (let i = 0; i < M; i++) {
-    for (let j = 0; j < N; j++) {
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
       if (newGrid[i][j] == 0) output += '.';
       else output += '*';
     }
@@ -76,8 +76,8 @@ function getGenerations(args: string[], defaultGenerations = 2): number {
   return defaultGenerations;
 }
 
-const M = 5,
-  N = 10;
+const ROWS = 10,
+  COLS = 10;
 
 // Initializing the grid.
 let grid = [
@@ -99,7 +99,7 @@ process.stdout.write('Hello, RAE Dev Game of Life! \n' + os.EOL);
 for (let i = 0; i < getGenerations(process.argv, generations); i++) {
   let output = '';
   process.stdout.write('Generation ' + (i + 1) + os.EOL);
-  grid = nextGeneration(grid, M, N);
-  output = getOutput(grid);
+  grid = nextGeneration(grid, ROWS, COLS);
+  output = getOutput(grid, ROWS, COLS);
   process.stdout.write(output + os.EOL);
 }
