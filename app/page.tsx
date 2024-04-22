@@ -1,32 +1,49 @@
 'use client';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { nextGeneration } from '@/src/nextGeneration';
+import { getGrid } from '@/src/getGrid';
+import styles from '@/app/styles.module.css';
 
-const lifeSimulation = [
-  [1, 1, 0, 0, 1, 0, 1, 0, 1, 0],
-  [0, 1, 0, 0, 0, 0, 1, 0, 1, 1],
-  [0, 1, 0, 0, 0, 0, 1, 0, 1, 0],
-  [0, 0, 0, 0, 1, 0, 1, 0, 1, 0],
-  [0, 1, 0, 0, 0, 0, 1, 0, 1, 0],
-  [0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
-];
+const ROWS = 25;
+const COLS = 50;
+const GENS = 10;
 
 export default function Page() {
   const data = getData();
   const [population, setPopulation] = useState(data);
+  const [passes, setPasses] = useState(0);
+  console.log('passes', passes);
+
+  const replay = () => {
+    setPopulation(getData());
+    setPasses(0);
+  };
+
+  useEffect(() => {
+    if (passes < GENS) {
+      setPopulation((prev) => nextGeneration(prev, ROWS, COLS));
+      setPasses((prev) => prev + 1);
+    }
+  }, [passes]);
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Hello, Next.js!</h1>
-      <p>{population.length}</p>
-      <div className={'flex flex-col'}>
+      <p>Rows: {population.length}</p>
+      <p>Passes: {passes}</p>
+      <button className={styles.replayButton} onClick={replay}>
+        Replay
+      </button>
+      <div>
         {population.map((row, rowIdx) => (
-          <div key={rowIdx} className={'flex-row'}>
+          <div key={rowIdx}>
             {row.map((node, nodeIdx) => (
               <input
                 key={nodeIdx}
                 id={`${rowIdx}-${nodeIdx}`}
                 type={'checkbox'}
+                // defaultChecked={node === 1}
                 checked={node === 1}
               />
             ))}
@@ -38,5 +55,6 @@ export default function Page() {
 }
 
 function getData() {
-  return lifeSimulation;
+  // return lifeSimulation;
+  return nextGeneration(getGrid(ROWS, COLS), ROWS, COLS);
 }
