@@ -7,7 +7,7 @@ import styles from '@/app/styles.module.css';
 
 const ROWS = 25;
 const COLS = 50;
-const GENS = 10;
+const GENS = 25;
 
 export default function Page() {
   const data = getData();
@@ -29,13 +29,14 @@ export default function Page() {
 
   return (
     <div className={styles.container}>
-      <h1>Hello, Next.js!</h1>
-      <p>Rows: {population.length}</p>
-      <p>Passes: {passes}</p>
-      <button className={styles.replayButton} onClick={replay}>
-        Replay
-      </button>
-      <div>
+      <div className={styles.filterRow}>
+        <p>Rows: {population.length}</p>
+        <p>Passes: {passes}</p>
+        <button className={styles.replayButton} onClick={replay}>
+          Replay
+        </button>
+      </div>
+      <div className={styles.grid}>
         {population.map((row, rowIdx) => (
           <div key={rowIdx}>
             {row.map((node, nodeIdx) => (
@@ -45,6 +46,7 @@ export default function Page() {
                 type={'checkbox'}
                 // defaultChecked={node === 1}
                 checked={node === 1}
+                className={styles.roundedCheckbox}
               />
             ))}
           </div>
