@@ -1,12 +1,12 @@
 'use client';
 import * as React from 'react';
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { nextGenerationOptimized } from '@/src/nextGeneration';
 import { getGrid } from '@/src/getGrid';
 import styles from '@/app/styles.module.css';
 import { parseAsInteger, useQueryState } from 'nuqs';
 
-export default function Page() {
+export default function GameOfLifePage() {
   const [passes, setPasses] = useState(0);
   const maxRows = 25;
   const [rows, setRows] = useQueryState('rows', parseAsInteger.withDefault(10));
