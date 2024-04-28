@@ -71,7 +71,7 @@
   background-color: blue;
 }
 .roundedCheckbox:hover {
-  border: 1px solid black;
+  outline: 1px solid black;
 }
 
 .filterLabel {

@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { nextGenerationOptimized } from '@/src/nextGeneration';
 import { getGrid } from '@/src/getGrid';
 import styles from '@/app/styles.module.css';
@@ -18,7 +18,7 @@ export default function Page() {
   const [population, setPopulation] = useState(data);
 
   const replay = () => {
-    setPopulation(getData(rows, cols));
+    setPopulation(population);
     setPasses(0);
   };
 

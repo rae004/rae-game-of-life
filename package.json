@@ -9,8 +9,9 @@
   "private": false,
   "scripts": {
     "dev": "next dev",
-    "start": "node -r tsconfig-paths/register -r ts-node/register ./index.ts",
-    "start:dev": "nodemon"
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "next": "^14.2.2",
