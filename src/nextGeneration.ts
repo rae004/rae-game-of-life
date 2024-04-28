@@ -10,7 +10,7 @@ export function nextGenerationOptimized(
   // Compute the initial neighbor counts
   for (let l = 0; l < M; l++) {
     for (let m = 0; m < N; m++) {
-      if (grid[l][m] === 1) {
+      if (grid[l][m] !== undefined && grid[l][m] === 1) {
         updateNeighborCounts(neighborCounts, l, m, M, N, 1);
       }
     }

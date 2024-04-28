@@ -1,5 +1,11 @@
-export function getGrid(rows: number, columns: number): number[][] {
+export function getGrid(
+  rows: number,
+  columns: number,
+  allZeros = false,
+): number[][] {
   return Array.from({ length: rows }, () =>
-    Array.from({ length: columns }, () => Math.round(Math.random())),
+    Array.from({ length: columns }, () =>
+      Math.round(allZeros ? 0 : Math.random()),
+    ),
   );
 }

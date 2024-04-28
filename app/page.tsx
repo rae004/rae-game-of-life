@@ -1,10 +1,11 @@
 'use client';
-import * as React from 'react';
 import { useEffect, useState } from 'react';
+import { parseAsInteger, useQueryState } from 'nuqs';
 import { nextGenerationOptimized } from '@/src/nextGeneration';
 import { getGrid } from '@/src/getGrid';
 import styles from '@/app/styles.module.css';
-import { parseAsInteger, useQueryState } from 'nuqs';
+import Filters from '@/app/components/Filters';
+import CellsGrid from '@/app/components/CellsGrid';
 
 export default function GameOfLifePage() {
   const [passes, setPasses] = useState(0);
@@ -27,6 +28,11 @@ export default function GameOfLifePage() {
     setPasses(0);
   };
 
+  const emptyBoard = () => {
+    setPopulation(getGrid(rows, cols, true));
+    setPasses(0);
+  };
+
   useEffect(() => {
     if (passes < gens) {
       setPopulation((prev) => nextGenerationOptimized(prev, rows, cols));
@@ -34,91 +40,31 @@ export default function GameOfLifePage() {
     }
   }, [passes, rows]);
 
+  const filterProps = {
+    passes,
+    maxRows,
+    rows,
+    setRows,
+    maxCols,
+    cols,
+    setCols,
+    maxGens,
+    gens,
+    setGens,
+    replay,
+    newBoard,
+    emptyBoard,
+  };
+
+  const populationProps = {
+    population,
+    setPopulation,
+  };
+
   return (
     <div className={styles.container}>
-      <div className={styles.filterRow}>
-        <label htmlFor="rows" className={`${styles.filterLabel}`}>
-          Rows:{' '}
-        </label>
-        <input
-          id={'rows'}
-          name={'rows'}
-          value={rows}
-          className={styles.filterInput}
-          onChange={(e) => {
-            setRows(() => {
-              const value = parseInt(e.target.value);
-              if (isNaN(value)) return 0;
-              return value < maxRows ? value : maxRows;
-            }).then((searchParams) => console.warn(searchParams));
-          }}
-        />
-        <label htmlFor="cols" className={`${styles.filterLabel}`}>
-          Columns:{' '}
-        </label>
-        <input
-          id={'cols'}
-          name={'cols'}
-          value={cols}
-          className={styles.filterInput}
-          onChange={(e) => {
-            setCols(() => {
-              const value = parseInt(e.target.value);
-              if (isNaN(value)) return 0;
-              return value < maxCols ? value : maxCols;
-            }).then((searchParams) => console.warn(searchParams));
-          }}
-        />
-        <label htmlFor="gens" className={`${styles.filterLabel}`}>
-          Generations:{' '}
-        </label>
-        <input
-          id={'gens'}
-          name={'gens'}
-          value={gens}
-          className={styles.filterInput}
-          onChange={(e) => {
-            setGens(() => {
-              const value = parseInt(e.target.value);
-              if (isNaN(value)) return 0;
-              return value < maxGens ? value : maxGens;
-            }).then((searchParams) => console.warn(searchParams));
-          }}
-        />
-        <span className={`${styles.filterLabel} ${styles.filterSpan}`}>
-          Passes: {passes}
-        </span>
-        <button className={styles.replayButton} onClick={replay}>
-          Replay
-        </button>
-        <button className={styles.replayButton} onClick={newBoard}>
-          New Board
-        </button>
-      </div>
-      <div className={styles.grid}>
-        {population.map((row, rowIdx) => (
-          <div key={rowIdx}>
-            {row.map((node, nodeIdx) => (
-              <input
-                key={nodeIdx}
-                id={`${rowIdx}-${nodeIdx}`}
-                type={'checkbox'}
-                checked={node === 1}
-                className={styles.roundedCheckbox}
-                onChange={() => {
-                  const newPopulation = [...population];
-                  newPopulation[rowIdx][nodeIdx] = newPopulation[rowIdx][
-                    nodeIdx
-                  ]
-                    ? 0
-                    : 1;
-                  setPopulation(newPopulation);
-                }}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
+      <Filters {...filterProps} />
+      <CellsGrid {...populationProps} />
     </div>
   );
 }
