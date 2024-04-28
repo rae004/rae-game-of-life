@@ -15,9 +15,21 @@ export default function GameOfLifePage() {
   const [cols, setCols] = useQueryState('cols', parseAsInteger.withDefault(10));
   const maxGens = 200;
   const [gens, setGens] = useQueryState('gens', parseAsInteger.withDefault(25));
+  const [waitTime, setWaitTime] = useQueryState(
+    'wait',
+    parseAsInteger.withDefault(0),
+  );
   const data = getData(rows, cols);
   const [population, setPopulation] = useState(data);
 
+  const wait = (ms: number) => {
+    const start = Date.now();
+    let now = start;
+
+    while (now - start < ms) {
+      now = Date.now();
+    }
+  };
   const replay = () => {
     setPopulation(population);
     setPasses(0);
@@ -34,11 +46,18 @@ export default function GameOfLifePage() {
   };
 
   useEffect(() => {
+    if (passes) {
+      wait(waitTime);
+    }
+
     if (passes < gens) {
       setPopulation((prev) => nextGenerationOptimized(prev, rows, cols));
       setPasses((prev) => prev + 1);
     }
   }, [passes, rows]);
+  useEffect(() => {
+    setWaitTime(0).then(() => console.warn('waitTime set to 0'));
+  }, []);
 
   const filterProps = {
     passes,
@@ -54,6 +73,7 @@ export default function GameOfLifePage() {
     replay,
     newBoard,
     emptyBoard,
+    setWaitTime,
   };
 
   const populationProps = {
