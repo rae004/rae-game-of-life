@@ -1,7 +1,7 @@
 'use client';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { nextGeneration } from '@/src/nextGeneration';
+import { nextGenerationOptimized } from '@/src/nextGeneration';
 import { getGrid } from '@/src/getGrid';
 import styles from '@/app/styles.module.css';
 import { parseAsInteger, useQueryState } from 'nuqs';
@@ -12,7 +12,7 @@ export default function Page() {
   const [rows, setRows] = useQueryState('rows', parseAsInteger.withDefault(10));
   const maxCols = 25;
   const [cols, setCols] = useQueryState('cols', parseAsInteger.withDefault(10));
-  const maxGens = 1000;
+  const maxGens = 200;
   const [gens, setGens] = useQueryState('gens', parseAsInteger.withDefault(25));
   const data = getData(rows, cols);
   const [population, setPopulation] = useState(data);
@@ -24,7 +24,7 @@ export default function Page() {
 
   useEffect(() => {
     if (passes < gens) {
-      setPopulation((prev) => nextGeneration(prev, rows, cols));
+      setPopulation((prev) => nextGenerationOptimized(prev, rows, cols));
       setPasses((prev) => prev + 1);
     }
   }, [passes, rows]);
@@ -76,7 +76,7 @@ export default function Page() {
             setGens(() => {
               const value = parseInt(e.target.value);
               if (isNaN(value)) return 0;
-              return value < 1000 ? value : maxGens;
+              return value < maxGens ? value : maxGens;
             }).then((searchParams) => console.log(searchParams));
           }}
         />
@@ -105,6 +105,5 @@ export default function Page() {
 }
 
 function getData(rows: number, cols: number) {
-  // return lifeSimulation;
-  return nextGeneration(getGrid(rows, cols), rows, cols);
+  return nextGenerationOptimized(getGrid(rows, cols), rows, cols);
 }

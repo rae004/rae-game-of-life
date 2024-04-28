@@ -1,5 +1,5 @@
 import * as os from 'os';
-import { nextGeneration } from '@/src/nextGeneration';
+import { nextGenerationOptimized } from '@/src/nextGeneration';
 import { getNodeOutput } from '@/src/getNodeConsoleOutput';
 import { getColsArg, getGenerationsArg, getRowsArg } from '@/src/getArgs';
 import { getGrid } from '@/src/getGrid';
@@ -18,7 +18,7 @@ export function gameOfLife(rows?: number, cols?: number, gens?: number) {
   for (let i = 0; i < GENS; i++) {
     let output = '';
     process.stdout.write('Generation ' + (i + 1) + os.EOL);
-    grid = nextGeneration(grid, ROWS, COLS);
+    grid = nextGenerationOptimized(grid, ROWS, COLS);
     grids.push(grid);
     output = getNodeOutput(grid, ROWS, COLS);
     process.stdout.write(output + os.EOL);
