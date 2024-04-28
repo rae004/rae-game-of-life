@@ -22,6 +22,11 @@ export default function GameOfLifePage() {
     setPasses(0);
   };
 
+  const newBoard = () => {
+    setPopulation(getData(rows, cols));
+    setPasses(0);
+  };
+
   useEffect(() => {
     if (passes < gens) {
       setPopulation((prev) => nextGenerationOptimized(prev, rows, cols));
@@ -85,6 +90,9 @@ export default function GameOfLifePage() {
         </span>
         <button className={styles.replayButton} onClick={replay}>
           Replay
+        </button>
+        <button className={styles.replayButton} onClick={newBoard}>
+          New Board
         </button>
       </div>
       <div className={styles.grid}>
