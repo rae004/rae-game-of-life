@@ -1,7 +1,6 @@
 .container {
   margin: 0;
-  background: #f0f0f0;
-  height: 100vh
+  height: 100%;
 }
 
 .replayButton {
@@ -29,6 +28,18 @@
   align-items: center;
 }
 
+.grid > div {
+  border: 1px solid #000;
+}
+
+.grid > div:not(:first-child) {
+  border-top-style: none;
+}
+
+.grid > div:not(:last-child) {
+  border-bottom-style: none;
+}
+
 .filterRow {
   display: flex;
   flex-direction: row;
@@ -39,21 +50,28 @@
   margin: 10px 20px;
 }
 
+.filterRow > input {
+  border: 1px solid #a4a4a4;
+}
+
 .roundedCheckbox {
   width: 1.15em;
   height: 1.15em;
-  border: 0.15em solid currentColor;
-  border-radius: 0.15em;
   vertical-align: middle;
   appearance: none;
   -webkit-appearance: none;
   outline: none;
   cursor: pointer;
+  padding: 0.8rem;
+  margin: 0.3rem;
 }
 .roundedCheckbox:checked {
   appearance: none;
   clip-path: circle(50% at 50% 50%);
   background-color: blue;
+}
+.roundedCheckbox:hover {
+  border: 1px solid black;
 }
 
 .filterLabel {
@@ -63,6 +81,16 @@
   padding-right: 3px;
 }
 
+.filterSpan {
+  width: 8%;
+}
+
 .filterInput {
   margin-right: 32px;
+}
+
+.checkboxDiv {
+  display: flex;
+  flex-direction: column;
+  /*justify-content: center;*/
 }

@@ -32,7 +32,7 @@ export default function Page() {
   return (
     <div className={styles.container}>
       <div className={styles.filterRow}>
-        <label htmlFor="rows" className={styles.filterLabel}>
+        <label htmlFor="rows" className={`${styles.filterLabel}`}>
           Rows:{' '}
         </label>
         <input
@@ -45,10 +45,10 @@ export default function Page() {
               const value = parseInt(e.target.value);
               if (isNaN(value)) return 0;
               return value < maxRows ? value : maxRows;
-            }).then((searchParams) => console.log(searchParams));
+            }).then((searchParams) => console.warn(searchParams));
           }}
         />
-        <label htmlFor="rows" className={styles.filterLabel}>
+        <label htmlFor="cols" className={`${styles.filterLabel}`}>
           Columns:{' '}
         </label>
         <input
@@ -61,10 +61,10 @@ export default function Page() {
               const value = parseInt(e.target.value);
               if (isNaN(value)) return 0;
               return value < maxCols ? value : maxCols;
-            }).then((searchParams) => console.log(searchParams));
+            }).then((searchParams) => console.warn(searchParams));
           }}
         />
-        <label htmlFor="gens" className={styles.filterLabel}>
+        <label htmlFor="gens" className={`${styles.filterLabel}`}>
           Generations:{' '}
         </label>
         <input
@@ -77,9 +77,12 @@ export default function Page() {
               const value = parseInt(e.target.value);
               if (isNaN(value)) return 0;
               return value < maxGens ? value : maxGens;
-            }).then((searchParams) => console.log(searchParams));
+            }).then((searchParams) => console.warn(searchParams));
           }}
         />
+        <span className={`${styles.filterLabel} ${styles.filterSpan}`}>
+          Passes: {passes}
+        </span>
         <button className={styles.replayButton} onClick={replay}>
           Replay
         </button>
@@ -92,9 +95,17 @@ export default function Page() {
                 key={nodeIdx}
                 id={`${rowIdx}-${nodeIdx}`}
                 type={'checkbox'}
-                // defaultChecked={node === 1}
                 checked={node === 1}
                 className={styles.roundedCheckbox}
+                onChange={() => {
+                  const newPopulation = [...population];
+                  newPopulation[rowIdx][nodeIdx] = newPopulation[rowIdx][
+                    nodeIdx
+                  ]
+                    ? 0
+                    : 1;
+                  setPopulation(newPopulation);
+                }}
               />
             ))}
           </div>
