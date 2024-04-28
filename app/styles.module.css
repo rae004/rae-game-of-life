@@ -35,7 +35,7 @@
   justify-content: center;
 }
 
-.filterRow > p {
+.filterRow {
   margin: 10px 20px;
 }
 
@@ -54,4 +54,15 @@
   appearance: none;
   clip-path: circle(50% at 50% 50%);
   background-color: blue;
+}
+
+.filterLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding-right: 3px;
+}
+
+.filterInput {
+  margin-right: 32px;
 }
