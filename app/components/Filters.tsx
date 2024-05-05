@@ -18,6 +18,7 @@ export default function Filters({ ...props }: Record<string, any>) {
     newBoard,
     emptyBoard,
     setWaitTime,
+    waitTime,
   } = props;
 
   const filterInputProps = {
@@ -50,7 +51,7 @@ export default function Filters({ ...props }: Record<string, any>) {
         <button className={styles.replayButton} onClick={emptyBoard}>
           Empty Board
         </button>
-        <WaitTimeSelector setWaitTime={setWaitTime} />
+        <WaitTimeSelector setWaitTime={setWaitTime} waitTime={waitTime} />
       </div>
     </>
   );

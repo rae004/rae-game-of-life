@@ -54,10 +54,7 @@ export default function GameOfLifePage() {
       setPopulation((prev) => nextGenerationOptimized(prev, rows, cols));
       setPasses((prev) => prev + 1);
     }
-  }, [passes, rows]);
-  useEffect(() => {
-    setWaitTime(0).then(() => console.warn('waitTime set to 0'));
-  }, []);
+  }, [passes]);
 
   const filterProps = {
     passes,
@@ -74,6 +71,7 @@ export default function GameOfLifePage() {
     newBoard,
     emptyBoard,
     setWaitTime,
+    waitTime,
   };
 
   const populationProps = {

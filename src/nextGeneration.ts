@@ -10,7 +10,13 @@ export function nextGenerationOptimized(
   // Compute the initial neighbor counts
   for (let l = 0; l < M; l++) {
     for (let m = 0; m < N; m++) {
-      if (grid[l][m] !== undefined && grid[l][m] === 1) {
+      if (
+        !isNaN(m) &&
+        grid[l] &&
+        grid[l][m] &&
+        grid[l][m] !== undefined &&
+        grid[l][m] === 1
+      ) {
         updateNeighborCounts(neighborCounts, l, m, M, N, 1);
       }
     }
@@ -22,10 +28,14 @@ export function nextGenerationOptimized(
       const aliveNeighbours = neighborCounts[l][m];
 
       // Implementing the Rules of Life
-      if (grid[l][m] === 1 && (aliveNeighbours < 2 || aliveNeighbours > 3)) {
+      if (
+        grid[l] &&
+        grid[l][m] === 1 &&
+        (aliveNeighbours < 2 || aliveNeighbours > 3)
+      ) {
         future[l][m] = 0;
         updateNeighborCounts(neighborCounts, l, m, M, N, -1);
-      } else if (grid[l][m] === 0 && aliveNeighbours === 3) {
+      } else if (grid[l] && grid[l][m] === 0 && aliveNeighbours === 3) {
         future[l][m] = 1;
         updateNeighborCounts(neighborCounts, l, m, M, N, 1);
       } else {
